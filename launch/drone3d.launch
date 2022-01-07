@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find drone3d)/worlds/city1.world"/>
+  </include>
+
+   <!-- send robot urdf to param server -->
+  <param name="robot_description" command="cat '$(find sjtu_drone)/urdf/sjtu_drone.urdf'" />
+
+  <!-- Spawn simulated quadrotor uav -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model sjtu_drone -x 0 -y 0 -z 0"
+    respawn="false" output="screen" />
+</launch>

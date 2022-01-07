@@ -1,0 +1,30 @@
+#ifndef ROUTE_PLANNER_H
+#define ROUTE_PLANNER_H
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+#include "grid.h"
+
+class RoutePlanner
+{
+public:
+    RoutePlanner(Grid3D<State> &grid, float start[2], float end[2]);
+
+    void AStarSearch();
+    void AddNeighbors(std::vector<int> current_node);
+    float CalculateHValue(std::vector<int> const current_node);
+    std::vector<int> NextNode();
+    std::vector<std::vector<int>> path_node;
+
+private:
+    // directional deltas
+    const int delta[6][3]{{-1, 0, 0}, {1, 0, 0}, {0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}};
+
+    std::vector<std::vector<int>> open_list;
+    std::vector<int> start_node;
+    std::vector<int> end_node;
+};
+
+#endif
