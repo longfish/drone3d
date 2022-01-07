@@ -1,17 +1,12 @@
 #ifndef DRONE_OBJECT_H
 #define DRONE_OBJECT_H
 
-#include <geometry_msgs/Twist.h>
-#include <ros/ros.h>
-#include <std_msgs/Bool.h>
-#include <std_msgs/Empty.h>
-
 #include "drone3d.h"
 
 /**
  * @brief A simple class to send the commands to the drone through
  * the corresponding topics
- * @ref Here we modified the DroneObjectROS object in sjtu-drone 
+ * @ref This code was modified from the DroneObjectROS object in sjtu-drone 
  * package: https://github.com/tahsinkose/sjtu-drone
  */
 
@@ -42,6 +37,7 @@ public:
     void VelocityMode(bool on);
     void InitROS(ros::NodeHandle &node);
     void PoseCallBack(const geometry_msgs::Pose::ConstPtr &msg);
+    void SpendTime(const int time_s);
 
     // convert the coordinates between Gazebo and nodegrid
     std::vector<int> CoordG2N(float xG, float yG);

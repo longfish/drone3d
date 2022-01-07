@@ -1,6 +1,9 @@
 #ifndef DRONE3D_H
 #define DRONE3D_H
 
+#include <iostream>
+#include <vector>
+#include <string>
 #include <thread>
 #include <ros/ros.h>
 #include <geometry_msgs/Pose.h>
@@ -10,6 +13,7 @@
 
 #include "drone_object.h"
 #include "grid.h"
+//#include "route_planner.h"
 
 enum class State
 {
@@ -21,6 +25,6 @@ enum class State
     kFinish
 };
 
-extern float initial_coord[2]; // global variable to store initial node coordinate
+extern float current_coord[3]; // global variable to store initial positions
 
 #endif

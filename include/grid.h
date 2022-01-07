@@ -11,7 +11,7 @@ protected:
     unsigned w, h, l;
 
 public:
-    Grid3D() {}
+    Grid3D(const std::vector<std::string> &maps);
     Grid3D(const Grid3D<T> &other);
     Grid3D(unsigned width, unsigned height, unsigned length);
     ~Grid3D() { delete[] data; }

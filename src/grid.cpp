@@ -1,6 +1,11 @@
 #include "grid.h"
 
 template <typename T>
+Grid3D<T>::Grid3D(const std::vector<std::string> &maps){
+
+}
+
+template <typename T>
 Grid3D<T>::Grid3D(const Grid3D<T> &other)
 {
     unsigned x, size = other.w * other.h * other.l;
@@ -9,9 +14,7 @@ Grid3D<T>::Grid3D(const Grid3D<T> &other)
     h = other.h;
     l = other.l;
     for (x = 0; x < size; ++x)
-    {
         data[x] = other.data[x];
-    }
 }
 
 template <typename T>
@@ -22,4 +25,3 @@ Grid3D<T>::Grid3D(unsigned width, unsigned height, unsigned length)
     l = length;
     data = new T[w * l * h];
 }
-

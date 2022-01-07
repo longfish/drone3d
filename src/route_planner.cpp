@@ -1,4 +1,3 @@
-#include <cmath>
 #include "route_planner.h"
 
 RoutePlanner::RoutePlanner(Grid3D<State> &grid, float start[2], float end[2])

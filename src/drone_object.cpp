@@ -16,9 +16,11 @@ void DroneObject::InitROS(ros::NodeHandle &node)
 
 void DroneObject::PoseCallBack(const geometry_msgs::Pose::ConstPtr &msg)
 {
-    float initial_coord[2];
-    initial_coord[0] = msg->position.x;
-    initial_coord[1] = msg->position.y;
+    float current_coord[3];
+    current_coord[0] = msg->position.x;
+    current_coord[1] = msg->position.y;
+    current_coord[2] = msg->position.z;
+    ROS_INFO("Current position: %f, %f, %f", current_coord[0], current_coord[1], current_coord[2]);
 }
 
 bool DroneObject::TakeOff()
@@ -129,4 +131,9 @@ std::vector<float> DroneObject::CoordN2G(std::vector<int> coordN)
     coordG.push_back(float(coordN[1]) * (-5) + 97.5);                     //y
     coordG.push_back(float(coordN[0]) * flight_level_diff + init_height); //z
     return coordG;
+}
+
+void DroneObject::SpendTime(const int time_s)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000 * time_s));
 }

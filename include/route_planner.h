@@ -1,10 +1,8 @@
 #ifndef ROUTE_PLANNER_H
 #define ROUTE_PLANNER_H
 
-#include <iostream>
-#include <vector>
-#include <string>
-
+#include <cmath>
+#include "drone3d.h"
 #include "grid.h"
 
 class RoutePlanner
