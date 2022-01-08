@@ -12,7 +12,6 @@
 #include <std_msgs/Empty.h>
 
 #include "drone_object.h"
-#include "grid.h"
 //#include "route_planner.h"
 
 #define EPS 0.1            // position tolerance

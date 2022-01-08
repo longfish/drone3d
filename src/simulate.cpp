@@ -1,22 +1,21 @@
 #include "drone3d.h"
 #include "route_planner.h"
 
-// TODO: change the gazebo_2Dmap_plugin to allow message passing, this is
-// to get the 2D occupied map without restart the world.
-
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "simulate_drone");
     ros::NodeHandle nh;
     DroneObject drone(nh);
 
-    // get the real-time position of drone
+    // subscribe the real-time position of drone
     ros::Subscriber sub = nh.subscribe("/drone/gt_pose", 1024, &DroneObject::PoseCallBack, &drone);
 
     drone.VelocityMode(true); // switching velocity mode on
     drone.TakeOff();          // drone take off
     drone.PositionCtrl(true); // switching position control on
 
+    // read the map grid
+    std::vector<std::string> maps{"maps/map55.pgm", "maps/map65.pgm", "maps/map75.pgm", "maps/map85.pgm", "maps/map95.pgm", "maps/map105.pgm", "maps/map115.pgm"};
     // send to drone some routes
     std::vector<std::vector<int>> routes{};
     routes.push_back(std::vector<int>{1, 2, 3});

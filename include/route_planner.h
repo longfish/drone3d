@@ -3,12 +3,11 @@
 
 #include <cmath>
 #include "drone3d.h"
-#include "grid.h"
 
 class RoutePlanner
 {
 public:
-    RoutePlanner(Grid3D<State> &grid, float start[2], float end[2]);
+    RoutePlanner(std::vector<State> &grid, float start[2], float end[2]);
 
     void AStarSearch();
     void AddNeighbors(std::vector<int> current_node);

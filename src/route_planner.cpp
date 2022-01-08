@@ -1,6 +1,6 @@
 #include "route_planner.h"
 
-RoutePlanner::RoutePlanner(Grid3D<State> &grid, float start[2], float end[2])
+RoutePlanner::RoutePlanner(std::vector<State> &grid, float start[2], float end[2])
 {
     // Convert 2D Gazebo coordinates to grid:
     // start_x *= 0.01;

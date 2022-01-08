@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name='default'>
+    <scene>
+        <sky>
+            <sunset>20</sunset>
+        </sky>
+    </scene>
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- A ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <state world_name='default'>
+      <model name='red_region'>
+        <pose frame=''>0 0 0 0 0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>0 0 0 0 0 0</pose>
+          <velocity>0 0 0 0 0 0</velocity>
+        </link>
+      </model>
+    </state>
+    <model name='red_region'>
+      <pose frame=''>0 0 0 0 -0 0</pose>
+      <link name='link'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.166667</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.166667</iyy>
+            <iyz>0</iyz>
+            <izz>0.166667</izz>
+          </inertia>
+        </inertial>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>2 2 0.01</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>2 2 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Red</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+      <static>true</static>
+    </model>
+    <population name="desperate_masses">
+      <model name="survivor">
+        <include>
+          <static>true</static>
+          <uri>model://person_standing</uri>
+        </include>
+      </model>
+      <pose>0 -30 0 0 0 0</pose>
+      <distribution>
+        <type>grid</type>
+        <rows>2</rows>
+        <cols>4</cols>
+        <step>15 15 0</step>
+      </distribution>
+    </population>
+
+    <plugin name="survivors_plugin" filename="libsurvivors_plugin.so"/>
+  </world>
+</sdf>
