@@ -32,12 +32,12 @@ public:
     bool Land();
     bool Hover();
     bool MoveTo(float x, float y, float z);
-    bool FlyAlongPath(std::vector<std::vector<int>>, int wait_time);
+    bool FlyAlongPath(std::vector<std::vector<int>>);
     void PositionCtrl(bool on);
     void VelocityMode(bool on);
     void InitROS(ros::NodeHandle &node);
     void PoseCallBack(const geometry_msgs::Pose::ConstPtr &msg);
-    void SpendTime(const int time_s);
+    void Wait(const float time_s);
 
     // convert the coordinates between Gazebo and nodegrid
     std::vector<int> CoordG2N(float xG, float yG);

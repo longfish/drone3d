@@ -15,6 +15,10 @@
 #include "grid.h"
 //#include "route_planner.h"
 
+#define EPS 0.1            // position tolerance
+#define TAKEOFF_HEIGHT 0.5 // drone height after take off
+#define LAND_HEIGHT 0.0    // drone height after land
+
 enum class State
 {
     kEmpty,

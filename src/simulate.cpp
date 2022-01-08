@@ -14,18 +14,25 @@ int main(int argc, char **argv)
     ros::Subscriber sub = nh.subscribe("/drone/gt_pose", 1024, &DroneObject::PoseCallBack, &drone);
 
     drone.VelocityMode(true); // switching velocity mode on
-    drone.SpendTime(2);       // spend 2s
     drone.TakeOff();          // drone take off
-    drone.SpendTime(5);       // spend 5s
-
-    // send the drone some routes
-    std::vector<std::vector<int>> path_node{};
-    path_node.push_back(std::vector<int>{1, 2, 3});
     drone.PositionCtrl(true); // switching position control on
-    drone.FlyAlongPath(path_node, 5000);
-    drone.Land(); // landing
 
-    ros::spin();
+    // send to drone some routes
+    std::vector<std::vector<int>> routes{};
+    routes.push_back(std::vector<int>{1, 2, 3});
+    routes.push_back(std::vector<int>{5, 20, 30});
+    routes.push_back(std::vector<int>{40, 20, 80});
+    routes.push_back(std::vector<int>{40, 20, 60});
+    routes.push_back(std::vector<int>{40, 20, 20});
+    routes.push_back(std::vector<int>{20, 20, 20});
+    routes.push_back(std::vector<int>{10, 20, 5});
+    routes.push_back(std::vector<int>{0, 0, 5});
+    routes.push_back(std::vector<int>{0, 0, 2});
+
+    drone.FlyAlongPath(routes);
+    drone.Land();
+
+    ROS_INFO("Landing position: (%f, %f, %f)", current_coord[0], current_coord[1], current_coord[2]);
 
     return 0;
 }

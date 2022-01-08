@@ -14,7 +14,7 @@ public:
     void AddNeighbors(std::vector<int> current_node);
     float CalculateHValue(std::vector<int> const current_node);
     std::vector<int> NextNode();
-    std::vector<std::vector<int>> path_node;
+    std::vector<std::vector<int>> routes;
 
 private:
     // directional deltas

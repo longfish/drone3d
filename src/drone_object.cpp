@@ -1,5 +1,7 @@
 #include "drone_object.h"
 
+float current_coord[3];
+
 void DroneObject::InitROS(ros::NodeHandle &node)
 {
     init_height = 55;
@@ -7,8 +9,8 @@ void DroneObject::InitROS(ros::NodeHandle &node)
     isFlying = false;
     isPositionCtrl = false;
     isVelocityMode = false;
-    pub_takeoff = node.advertise<std_msgs::Empty>("/drone/takeoff", 1);
-    pub_land = node.advertise<std_msgs::Empty>("/drone/land", 1);
+    pub_takeoff = node.advertise<std_msgs::Empty>("/drone/takeoff", 1024);
+    pub_land = node.advertise<std_msgs::Empty>("/drone/land", 1024);
     pub_cmd = node.advertise<geometry_msgs::Twist>("/cmd_vel", 1024);
     pub_velocitymode = node.advertise<std_msgs::Bool>("/drone/vel_mode", 1024);
     pub_positionctrl = node.advertise<std_msgs::Bool>("/drone/posctrl", 1024);
@@ -16,11 +18,9 @@ void DroneObject::InitROS(ros::NodeHandle &node)
 
 void DroneObject::PoseCallBack(const geometry_msgs::Pose::ConstPtr &msg)
 {
-    float current_coord[3];
     current_coord[0] = msg->position.x;
     current_coord[1] = msg->position.y;
     current_coord[2] = msg->position.z;
-    ROS_INFO("Current position: %f, %f, %f", current_coord[0], current_coord[1], current_coord[2]);
 }
 
 bool DroneObject::TakeOff()
@@ -30,8 +30,14 @@ bool DroneObject::TakeOff()
     else
         isFlying = true;
 
-    pub_takeoff.publish(std_msgs::Empty());
     ROS_INFO("Taking Off...");
+    while (abs(current_coord[2] - TAKEOFF_HEIGHT) > EPS)
+    {
+        pub_takeoff.publish(std_msgs::Empty());
+        ros::spinOnce();
+        Wait(0.01);
+    }
+
     return true;
 }
 
@@ -42,8 +48,14 @@ bool DroneObject::Land()
     else
         isFlying = false;
 
-    pub_land.publish(std_msgs::Empty());
     ROS_INFO("Landing...");
+    while (abs(current_coord[2] - LAND_HEIGHT) > EPS)
+    {
+        pub_land.publish(std_msgs::Empty());
+        ros::spinOnce();
+        Wait(0.01);
+    }
+
     return true;
 }
 
@@ -59,8 +71,10 @@ bool DroneObject::Hover()
     twist_msg.angular.y = 0.0;
     twist_msg.angular.z = 0.0;
 
-    pub_cmd.publish(twist_msg);
     ROS_INFO("Hovering...");
+    pub_cmd.publish(twist_msg);
+    ros::spinOnce();
+
     return true;
 }
 
@@ -81,7 +95,6 @@ void DroneObject::VelocityMode(bool on)
     std_msgs::Bool bool_msg;
     bool_msg.data = on ? 1 : 0;
     pub_velocitymode.publish(bool_msg);
-
     isVelocityMode = on;
     if (isVelocityMode)
         ROS_INFO("Switching velocity mode on...");
@@ -101,19 +114,24 @@ bool DroneObject::MoveTo(float x, float y, float z)
     twist_msg.angular.y = 0;
     twist_msg.angular.z = 0;
 
-    pub_cmd.publish(twist_msg);
     ROS_INFO("Moving...");
+    while (abs(current_coord[0] - x) > EPS || abs(current_coord[1] - y) > EPS || abs(current_coord[2] - z) > EPS)
+    {
+        pub_cmd.publish(twist_msg);
+        ros::spinOnce();
+        Wait(0.01);
+    }
+
     return true;
 }
 
-bool DroneObject::FlyAlongPath(std::vector<std::vector<int>> path_node, int wait_time)
+bool DroneObject::FlyAlongPath(std::vector<std::vector<int>> routes)
 {
-    for (auto path : path_node)
+    for (auto site : routes)
     {
-        std::vector<float> coord_Gazebo = CoordN2G(path);
-        MoveTo(1, 2, 3); // move to a point
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
+        std::vector<float> coord_Gazebo = CoordN2G(site);
+        MoveTo(site[0], site[1], site[2]);
+        ROS_INFO("Current position: (%f, %f, %f)", current_coord[0], current_coord[1], current_coord[2]);
     }
     return true;
 }
@@ -133,7 +151,7 @@ std::vector<float> DroneObject::CoordN2G(std::vector<int> coordN)
     return coordG;
 }
 
-void DroneObject::SpendTime(const int time_s)
+void DroneObject::Wait(const float time_s)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000 * time_s));
+    std::this_thread::sleep_for(std::chrono::milliseconds(int(1000 * time_s)));
 }
