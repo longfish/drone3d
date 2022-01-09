@@ -32,7 +32,7 @@ public:
     bool Land();
     bool Hover();
     bool MoveTo(float x, float y, float z);
-    bool FlyAlongPath(std::vector<std::vector<float>> routes);
+    bool FlyAlongPath(std::vector<std::vector<float>> route);
     void PositionCtrl(bool on);
     void VelocityMode(bool on);
     void InitROS(ros::NodeHandle &node);

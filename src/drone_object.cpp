@@ -19,6 +19,7 @@ void DroneObject::PoseCallBack(const geometry_msgs::Pose::ConstPtr &msg)
     current_coord[0] = msg->position.x;
     current_coord[1] = msg->position.y;
     current_coord[2] = msg->position.z;
+    ros::spinOnce();
 }
 
 bool DroneObject::TakeOff()
@@ -29,7 +30,7 @@ bool DroneObject::TakeOff()
         isFlying = true;
 
     ROS_INFO("Taking Off...");
-    while (abs(current_coord[2] - TAKEOFF_HEIGHT) > EPS)
+    while (abs(current_coord[2] - H_TAKEOFF) > EPS)
     {
         pub_takeoff.publish(std_msgs::Empty());
         ros::spinOnce();
@@ -47,7 +48,7 @@ bool DroneObject::Land()
         isFlying = false;
 
     ROS_INFO("Landing...");
-    while (abs(current_coord[2] - LAND_HEIGHT) > EPS)
+    while (abs(current_coord[2] - H_LAND) > EPS)
     {
         pub_land.publish(std_msgs::Empty());
         ros::spinOnce();
@@ -123,9 +124,9 @@ bool DroneObject::MoveTo(float x, float y, float z)
     return true;
 }
 
-bool DroneObject::FlyAlongPath(std::vector<std::vector<float>> routes)
+bool DroneObject::FlyAlongPath(std::vector<std::vector<float>> route)
 {
-    for (auto site : routes)
+    for (auto site : route)
     {
         MoveTo(site[0], site[1], site[2]);
         ROS_INFO("Current position: (%f, %f, %f)", current_coord[0], current_coord[1], current_coord[2]);
