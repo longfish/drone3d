@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
-  <world name='default'>
+  <world name='survivors'>
     <scene>
         <sky>
             <sunset>20</sunset>
@@ -14,7 +14,7 @@
     <include>
       <uri>model://ground_plane</uri>
     </include>
-    <state world_name='default'>
+    <state world_name='survivors'>
       <model name='red_region'>
         <pose frame=''>0 0 0 0 0 0</pose>
         <scale>1 1 1</scale>
@@ -77,21 +77,6 @@
       </link>
       <static>true</static>
     </model>
-    <population name="desperate_masses">
-      <model name="survivor">
-        <include>
-          <static>true</static>
-          <uri>model://person_standing</uri>
-        </include>
-      </model>
-      <pose>0 -30 0 0 0 0</pose>
-      <distribution>
-        <type>grid</type>
-        <rows>2</rows>
-        <cols>4</cols>
-        <step>15 15 0</step>
-      </distribution>
-    </population>
 
     <plugin name="survivors_plugin" filename="libsurvivors_plugin.so"/>
   </world>

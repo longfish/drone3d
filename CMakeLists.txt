@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   std_srvs
   geometry_msgs
-  message_generation
+  #message_generation
 )
 
 find_package(gazebo REQUIRED)
@@ -19,16 +19,16 @@ list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################
-add_message_files(
-  FILES
-  Position2D.msg
-)
+# add_message_files(
+#   FILES
+#   Position2D.msg
+# )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -79,6 +79,7 @@ add_dependencies(simulate ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_
 ## Specify libraries to link a library or executable target against
 target_link_libraries(simulate
   ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
 )
 
 #############

@@ -1,14 +1,51 @@
 #include "drone3d.h"
 #include "route_planner.h"
 
+std::vector<std::vector<double>> RandPositionGenerator(int n_survivors)
+{
+    // the world is in the range of [-50, 50]
+    std::random_device rd;
+    std::mt19937 e2(rd());
+    std::uniform_real_distribution<> distr(-50, 50);
+    std::vector<std::vector<double>> rand_p;
+    for (int n = 0; n < n_survivors; n++)
+        rand_p.push_back({distr(e2), distr(e2)});
+
+    return rand_p;
+}
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "simulate_drone");
-    ros::NodeHandle nh;
-    DroneObject drone(nh);
+    ros::NodeHandle n;
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // randomly generate survivors
+    int n_survivors(20);
+    std::vector<std::vector<double>> survivors_pos = RandPositionGenerator(n_survivors);
+    
+    ros::Publisher pub = n.advertise<std_msgs::Float64MultiArray>("/survivors/pose", 1024);
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    ros::spinOnce();
+
+    for (int i = 0; i < n_survivors; i++)
+    {
+        auto pos = survivors_pos[i];
+        std_msgs::Float64MultiArray msg;
+        msg.data.push_back(pos[0]);
+        msg.data.push_back(pos[1]);
+
+        pub.publish(msg);
+        ros::spinOnce();
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // create a drone object
+    DroneObject drone(n);
 
     // subscribe the real-time position of drone
-    ros::Subscriber sub = nh.subscribe("/drone/gt_pose", 1024, &DroneObject::PoseCallBack, &drone);
+    ros::Subscriber sub = n.subscribe("/drone/gt_pose", 1024, &DroneObject::PoseCallBack, &drone);
 
     drone.VelocityMode(true); // switching velocity mode on
     drone.TakeOff();          // drone take off
@@ -26,7 +63,7 @@ int main(int argc, char **argv)
     routes.push_back(std::vector<int>{20, 20, 20});
     routes.push_back(std::vector<int>{10, 20, 5});
     routes.push_back(std::vector<int>{0, 0, 5});
-    routes.push_back(std::vector<int>{0, 0, 2});
+    routes.push_back(std::vector<int>{0, 0, 1});
 
     drone.FlyAlongPath(routes);
     drone.Land();

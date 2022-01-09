@@ -10,6 +10,13 @@
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Empty.h>
+#include <std_msgs/Float64MultiArray.h>
+
+#include <gazebo/gazebo_config.h>
+#include <gazebo/transport/transport.hh>
+#include <gazebo/msgs/msgs.hh>
+#include <gazebo/transport/Node.hh>
+#include <gazebo/gazebo_client.hh>
 
 #include "drone_object.h"
 //#include "route_planner.h"
