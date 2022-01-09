@@ -69,15 +69,14 @@ namespace gazebo
     /// \brief ROS helper function that processes messages
     void QueueThread()
     {
-      static const double timeout = 0.0;
       while (this->rosNode->ok())
       {
-        this->rosQueue.callAvailable(ros::WallDuration(timeout));
+        this->rosQueue.callAvailable(ros::WallDuration());
       }
     }
 
     /// \brief Publish a message about where to pose a survivor
-    void PoseSurvivor(const double _x, const double _y)
+    void PoseSurvivor(const float _x, const float _y)
     {
       survivors_pub = this->gzNode->Advertise<msgs::Factory>("~/factory");
 

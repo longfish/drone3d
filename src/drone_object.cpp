@@ -4,8 +4,6 @@ float current_coord[3];
 
 void DroneObject::InitROS(ros::NodeHandle &node)
 {
-    init_height = 55;
-    flight_level_diff = 10;
     isFlying = false;
     isPositionCtrl = false;
     isVelocityMode = false;
@@ -125,30 +123,14 @@ bool DroneObject::MoveTo(float x, float y, float z)
     return true;
 }
 
-bool DroneObject::FlyAlongPath(std::vector<std::vector<int>> routes)
+bool DroneObject::FlyAlongPath(std::vector<std::vector<float>> routes)
 {
     for (auto site : routes)
     {
-        std::vector<float> coord_Gazebo = CoordN2G(site);
         MoveTo(site[0], site[1], site[2]);
         ROS_INFO("Current position: (%f, %f, %f)", current_coord[0], current_coord[1], current_coord[2]);
     }
     return true;
-}
-
-// convert the coordinates between nodegrid and Gazebo
-std::vector<int> DroneObject::CoordG2N(float xG, float yG)
-{
-    return std::vector<int>{0, int(std::round((-yG + 97.5) / 5.0)), int(std::round((xG + 97.5) / 5.0))};
-}
-
-std::vector<float> DroneObject::CoordN2G(std::vector<int> coordN)
-{
-    std::vector<float> coordG{};
-    coordG.push_back(float(coordN[2]) * 5 - 97.5);                        //x
-    coordG.push_back(float(coordN[1]) * (-5) + 97.5);                     //y
-    coordG.push_back(float(coordN[0]) * flight_level_diff + init_height); //z
-    return coordG;
 }
 
 void DroneObject::Wait(const float time_s)
