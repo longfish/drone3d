@@ -53,5 +53,6 @@ $ roslaunch drone3d drone3d.launch
 Simulate the survivor behavior and drone in the 2nd terminal:
 ```
 $ cd <catkin_ws>
+$ source devel/setup.bash
 $ rosrun drone3d simulate
 ```
