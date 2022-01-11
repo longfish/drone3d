@@ -30,7 +30,7 @@ Following the Rubric points described in https://review.udacity.com/#!/rubrics/2
 * catkin: `sudo apt-get install python3-catkin-tools python3-osrf-pycommon`, then create a catkin workspace described in this [site](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
 * Ignition Citadel: Follow the instructions [here](https://ignitionrobotics.org/docs/citadel/install_ubuntu).
 * sjtu-drone package installed in catkin workspace (eg. ~/catkin_ws), clone and install the package following the instruction from [here](https://github.com/longfish/sjtu-drone):
-* ```
+```
 $ cd <catkin_ws>/src
 $ git clone https://github.com/longfish/sjtu-drone.git
 $ cd <catkin_ws>
