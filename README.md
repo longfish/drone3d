@@ -1,10 +1,68 @@
 # Drone3D 
 
-Drone3D is a C++ package used for drone rescuing randomly distributed survivors based on Gazebo and ROS-1. This package adopted the drone controller program of [sjtu-drone](https://github.com/tahsinkose/sjtu-drone) and has beed tested in Ubuntu 20.04.
+Drone3D is a C++ drone package used to rescue randomly distributed survivors based on Gazebo and ROS-1. This package adopted the drone controller program of [sjtu-drone](https://github.com/tahsinkose/sjtu-drone) and has beed tested in Ubuntu 18.04/20.04. Please **notice** that the current package is not guaranteed to work on older versions of Ubuntu.
 
 The package first create a world with a drone landed at the centre red plate. Then multiple survivors are generated at random positions. The shortest route for traversing all survivors is calculated using RoutePlanner class. Drone would follow this route to visit each survivor and finally return to its initial position.
 
 <img src="map.png" width="600" height="450" />
+
+## Installation (for Ubuntu 18.04)
+**Note**: use ROS-Melodic and Gazebo-9, otherwise there may be issues.
+* ROS melodic desktop install, follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
+* Environment setup: 
+``` 
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+* Remove the previously installed gazebo, otherwise it will interfere with the current environment.
+```
+$ sudo apt-get remove ros-ROS_DISTRO-gazebo* # such as ros-kinetic-gazebo*
+$ sudo apt-get remove libgazebo*
+$ sudo apt-get remove gazebo*
+$ sudo apt autoclean && sudo apt autoremove
+```
+* Install Gazebo-9 follow the instructions from [here](http://gazebosim.org/tutorials?cat=install&tut=install_ubuntu&ver=9.0)
+```
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install gazebo9
+sudo apt-get install libgazebo9-dev
+```
+* Install gazebo-ros packages
+```
+sudo apt-get install ros-melodic-gazebo-ros ros-melodic-gazebo-ros-pkgs  ros-melodic-gazebo-ros-control
+```
+* Install catkin
+```
+sudo apt-get install python3-catkin-tools python3-osrf-pycommon
+```
+* Create a workspace (anywhere you like, e.g., `~/catkin_ws`, but should keep the same for the current installation):
+```
+$ mkdir -p ~/catkin_ws/src
+$ cd ~/catkin_ws/
+$ catkin_make
+```
+* Install sjtu-drone in the above workspace:
+```
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/tahsinkose/sjtu-drone.git
+$ cd ~/catkin_ws
+$ catkin_make
+```
+
+## Installation (for Ubuntu 20.04) 
+* Desktop version of ROS Noetic: Follow the instructions in this [site](http://wiki.ros.org/noetic/Installation/Ubuntu). Note one should do the "Desktop Install" and set-up proper environment variables.  
+* Gazebo 11: Follow the instructions [here](http://gazebosim.org/tutorials?tut=install_ubuntu). Then install gazebo-ros packages: `sudo apt-get install ros-noetic-gazebo-ros ros-noetic-gazebo-ros-pkgs ros-noetic-gazebo-ros-control`
+* catkin: `sudo apt-get install python3-catkin-tools python3-osrf-pycommon`, then create a catkin workspace described in this [site](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
+* Ignition Citadel: Follow the instructions [here](https://ignitionrobotics.org/docs/citadel/install_ubuntu).
+* sjtu-drone package installed in catkin workspace (eg. ~/catkin_ws), clone and install the package as the following:
+```
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/longfish/sjtu-drone.git
+$ cd ~/catkin_ws
+$ catkin_make
+```
 
 ## Program structure
 
@@ -24,26 +82,13 @@ Following the Rubric points described in https://review.udacity.com/#!/rubrics/2
 * `Object Oriented Programming::Class constructors utilize member initialization lists`: line-5 in route_planner.cpp.
 * `Memory Management::The project makes use of references in function declarations`: e.g., line-4, line-36 in route_planner.cpp.
 
-## Dependencies 
-* Desktop version of ROS Noetic: Follow the instructions in this [site](http://wiki.ros.org/noetic/Installation/Ubuntu). Note one should do the "Desktop Install" and set-up proper environment variables.  
-* Gazebo 11: Follow the instructions [here](http://gazebosim.org/tutorials?tut=install_ubuntu). Then install gazebo-ros packages: `sudo apt-get install ros-noetic-gazebo-ros ros-noetic-gazebo-ros-pkgs ros-noetic-gazebo-ros-control`
-* catkin: `sudo apt-get install python3-catkin-tools python3-osrf-pycommon`, then create a catkin workspace described in this [site](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
-* Ignition Citadel: Follow the instructions [here](https://ignitionrobotics.org/docs/citadel/install_ubuntu).
-* sjtu-drone package installed in catkin workspace (eg. ~/catkin_ws), clone and install the package following the instruction from [here](https://github.com/longfish/sjtu-drone):
-```
-$ cd <catkin_ws>/src
-$ git clone https://github.com/longfish/sjtu-drone.git
-$ cd <catkin_ws>
-$ catkin_make
-```
-
 ## Cloning and compiling
 
 Build this package in catkin workspace (must be the same as the one created in previous section):
 ```
-$ cd <catkin_ws>/src
+$ cd ~/catkin_ws/src
 $ git clone https://github.com/longfish/drone3d.git 
-$ cd <catkin_ws>
+$ cd ~/catkin_ws
 $ source devel/setup.bash
 $ catkin_make
 ```
@@ -52,14 +97,14 @@ $ catkin_make
 
 Launch the Gazebo world in the 1st terminal:
 ```
-$ cd <catkin_ws>
+$ cd ~/catkin_ws
 $ source devel/setup.bash
 $ roslaunch drone3d drone3d.launch
 ```
 
 Simulate the survivor behavior and drone in the 2nd terminal:
 ```
-$ cd <catkin_ws>
+$ cd ~/catkin_ws
 $ source devel/setup.bash
 $ rosrun drone3d simulate
 ```
