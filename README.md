@@ -29,15 +29,22 @@ Following the Rubric points described in https://review.udacity.com/#!/rubrics/2
 * Gazebo 11: Follow the instructions [here](http://gazebosim.org/tutorials?tut=install_ubuntu). Then install gazebo-ros packages: `sudo apt-get install ros-noetic-gazebo-ros ros-noetic-gazebo-ros-pkgs ros-noetic-gazebo-ros-control`
 * catkin: `sudo apt-get install python3-catkin-tools python3-osrf-pycommon`, then create a catkin workspace described in this [site](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
 * Ignition Citadel: Follow the instructions [here](https://ignitionrobotics.org/docs/citadel/install_ubuntu).
-* sjtu-drone installed in catkin workspace (eg. ~/catkin_ws), clone and install the package following the instruction from [here](https://github.com/longfish/sjtu-drone).
+* sjtu-drone package installed in catkin workspace (eg. ~/catkin_ws), clone and install the package following the instruction from [here](https://github.com/longfish/sjtu-drone):
+* ```
+$ cd <catkin_ws>/src
+$ git clone https://github.com/longfish/sjtu-drone.git
+$ cd <catkin_ws>
+$ catkin_make
+```
 
 ## Cloning and compiling
 
-Build this package in catkin workspace (the one created in previous section):
+Build this package in catkin workspace (must be the same as the one created in previous section):
 ```
 $ cd <catkin_ws>/src
 $ git clone https://github.com/longfish/drone3d.git 
 $ cd <catkin_ws>
+$ source devel/setup.bash
 $ catkin_make
 ```
 
