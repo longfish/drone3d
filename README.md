@@ -6,10 +6,10 @@ The package first create a world with a drone landed at the central red plate. T
 
 <img src="map.png" width="600" height="450" />
 
-## Installation
+## Install dependencies
 There are two installation options, i.e., docker and local ones. To get rid of dependency issues, Docker is a better choice to run the package. One need to have a Docker engine in the local machine, follow the instruction on [here](https://docs.docker.com/engine/install/ubuntu/).
 
-### Option-1: Docker
+### Option-1: Use Docker
 Choose an empty folder, download the Dockerfile and build the docker image (name it as rosdrone3d):
 ```
 wget https://raw.githubusercontent.com/longfish/drone3d/main/Dockerfile
@@ -37,7 +37,7 @@ sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1
 
 Following all the above steps, the user will then be in `/home/catkin_ws#` with all dependencies installed.
 
-### Option-2: Local environment (Ubuntu 18.04)
+### Option-2: Manually install (Ubuntu 18.04)
 **Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues. The current package is not guaranteed to work on older versions of Ubuntu.
 
 * ROS melodic **Desktop** install (not the **Desktop-Full**), follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
