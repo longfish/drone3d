@@ -21,6 +21,7 @@ RUN apt-get update \
 && rm -rf /var/lib/apt/lists/*
 
 # create a workspace
+RUN mkdir -p /home/catkin_ws/src
 WORKDIR "/home/catkin_ws"
 
 LABEL Name=drone3d Version=0.0.1
