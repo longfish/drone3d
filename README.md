@@ -1,6 +1,6 @@
 # Drone3D 
 
-Drone3D is a C++ drone package used to rescue randomly distributed survivors based on Gazebo and ROS-1. This package adopted the drone controller program of [sjtu-drone](https://github.com/tahsinkose/sjtu-drone) and has beed tested in Ubuntu 18.04/20.04 (Please **notice** that the current package is not guaranteed to work on older versions of Ubuntu). To get rid of all the dependency issues, a docker image is also created to ease the running of drone3d package.
+Drone3D is a C++ drone package used to rescue randomly distributed survivors based on Gazebo and ROS-1. This package adopted the drone controller program of [sjtu-drone](https://github.com/tahsinkose/sjtu-drone) and has beed tested in Ubuntu 18.04/20.04. To get rid of all the dependency issues, a docker image is also created to ease the running of drone3d package.
 
 The package first create a world with a drone landed at the central red plate. Then multiple survivors are generated at random positions. The shortest route for traversing all survivors is calculated using RoutePlanner class. Drone would follow this route to visit each survivor and finally return to its initial position.
 
@@ -10,22 +10,35 @@ The package first create a world with a drone landed at the central red plate. T
 There are two installation options, i.e., docker and local ones. To get rid of dependency issues, Docker is a better choice to run the package. One need to have a Docker engine in the local machine, follow the instruction on [here](https://docs.docker.com/engine/install/ubuntu/).
 
 ### Option-1: Docker
-**Note**: Please install nvidia-docker2 from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. 
-
-* Choose a folder you like, download the Dockerfile and build the docker image (name it as rosdrone3d):
+Choose an empty folder, download the Dockerfile and build the docker image (name it as rosdrone3d):
 ```
-wget https://github.com/longfish/drone3d/blob/main/Dockerfile
+wget https://raw.githubusercontent.com/longfish/drone3d/main/Dockerfile
+sudo xhost +local:root
 sudo docker build -t rosdrone3d .
 ```
-* Create a container:
+Create a container:
 ```
+sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" rosdrone3d bash
+```
+
+**Attention please**: If one is using Nvidia gpu and drivers, nvidia-docker2 should be installed from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. Uncomment the following lines in Dockerfile:
+```
+#ENV NVIDIA_VISIBLE_DEVICES \
+#    ${NVIDIA_VISIBLE_DEVICES:-all}
+#ENV NVIDIA_DRIVER_CAPABILITIES \
+#    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+```
+Build the docker image and then create a container using the following command:
+```
+sudo xhost +local:root
+sudo docker build -t rosdrone3d .
 sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia rosdrone3d bash
 ```
 
-Then the user will be in `/home/catkin_ws#` by default.
+Following all the above steps, the user will then be in `/home/catkin_ws#` with all dependencies installed.
 
-### Option-2: Local Ubuntu 18.04 
-**Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues.
+### Option-2: Local environment (Ubuntu 18.04)
+**Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues. The current package is not guaranteed to work on older versions of Ubuntu.
 
 * ROS melodic **Desktop** install (not the **Desktop-Full**), follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
 * Environment setup: 
@@ -62,7 +75,7 @@ $ mkdir -p ~/catkin_ws/src
 $ cd ~/catkin_ws/
 ```
 
-# Cloning and building
+## Cloning and building
 **Note**: the following should work in both the docker and local environment, we prefer docker.
 
 * Build sjtu-drone in the above workspace (must be the same as the one created in previous section):
