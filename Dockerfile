@@ -1,5 +1,11 @@
 FROM osrf/ros:melodic-desktop
 
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+    
 RUN apt-get update && apt-get install wget -y
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
 RUN wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
@@ -11,6 +17,7 @@ RUN bash -c "source /root/.bashrc"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
+ psmisc \
  gazebo9 \
  libgazebo9-dev \
  ros-melodic-gazebo-ros \
