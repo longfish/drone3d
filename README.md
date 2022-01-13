@@ -6,9 +6,27 @@ The package first create a world with a drone landed at the centre red plate. Th
 
 <img src="map.png" width="600" height="450" />
 
-## Installation (for Ubuntu 18.04)
+# Installation
+To get rid of dependency issues, please use Docker to run the package.
+
+## Docker
+**Note**: Please install the Nvidia-docker2 from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. 
+
+* Choose a folder you like, download the Dockerfile and build the docker image:
+```
+wget https://github.com/longfish/drone3d/blob/main/Dockerfile
+docker build -t rosdrone:v1 .
+```
+* Create a container:
+```
+sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia rosdrone:v1 bash
+```
+
+Then the user will be in `/home/catkin_ws#` by default.
+
+## Local Ubuntu 18.04 
 **Note**: use ROS-Melodic and Gazebo-9, otherwise there may be issues.
-* ROS melodic desktop install, follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
+* ROS melodic **Desktop** install (not the **Desktop-Full**), follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
 * Environment setup: 
 ``` 
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
@@ -41,32 +59,19 @@ sudo apt-get install python3-catkin-tools python3-osrf-pycommon
 ```
 $ mkdir -p ~/catkin_ws/src
 $ cd ~/catkin_ws/
-$ catkin_make
 ```
-* Install sjtu-drone in the above workspace:
+
+# Cloning and building
+**Note**: the following should work in both the docker and local environment, we prefer docker.
+
+* Build sjtu-drone in the above workspace (must be the same as the one created in previous section):
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/tahsinkose/sjtu-drone.git
 $ cd ~/catkin_ws
 $ catkin_make
 ```
-
-## Installation (for Ubuntu 20.04) 
-* Desktop version of ROS Noetic: Follow the instructions in this [site](http://wiki.ros.org/noetic/Installation/Ubuntu). Note one should do the "Desktop Install" and set-up proper environment variables.  
-* Gazebo 11: Follow the instructions [here](http://gazebosim.org/tutorials?tut=install_ubuntu). Then install gazebo-ros packages: `sudo apt-get install ros-noetic-gazebo-ros ros-noetic-gazebo-ros-pkgs ros-noetic-gazebo-ros-control`
-* catkin: `sudo apt-get install python3-catkin-tools python3-osrf-pycommon`, then create a catkin workspace described in this [site](http://wiki.ros.org/catkin/Tutorials/create_a_workspace).
-* Ignition Citadel: Follow the instructions [here](https://ignitionrobotics.org/docs/citadel/install_ubuntu).
-* sjtu-drone package installed in catkin workspace (eg. ~/catkin_ws), clone and install the package as the following:
-```
-$ cd ~/catkin_ws/src
-$ git clone https://github.com/longfish/sjtu-drone.git
-$ cd ~/catkin_ws
-$ catkin_make
-```
-
-## Cloning and compiling
-
-Build this package in catkin workspace (must be the same as the one created in previous section):
+* Build the drone3d package in the workspace:
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/longfish/drone3d.git 
@@ -76,6 +81,11 @@ $ catkin_make
 ```
 
 ## Running
+**Note**: is using docker, create two terminals using 
+```
+docker start my_rosdrone
+sudo docker exec -it my_rosdrone bash
+```
 
 Launch the Gazebo world in the 1st terminal:
 ```
