@@ -9,7 +9,7 @@ The package first create a world with a drone landed at the central red plate. T
 # Installation
 To get rid of dependency issues, Docker is a better choice to run the package.
 
-## Docker
+## Option-1: Docker
 **Note**: Please install the Nvidia-docker2 from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. 
 
 * Choose a folder you like, download the Dockerfile and build the docker image:
@@ -24,7 +24,7 @@ sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1
 
 Then the user will be in `/home/catkin_ws#` by default.
 
-## Local Ubuntu 18.04 
+## Option-2: Local Ubuntu 18.04 
 **Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues.
 
 * ROS melodic **Desktop** install (not the **Desktop-Full**), follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
