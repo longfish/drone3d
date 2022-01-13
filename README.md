@@ -28,7 +28,7 @@ sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1
 #ENV NVIDIA_DRIVER_CAPABILITIES \
 #    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 ```
-Build the docker image and then create a container using the following command:
+Then build the docker image and create a container using the following command:
 ```
 sudo xhost +local:root
 sudo docker build -t rosdrone3d .
@@ -48,10 +48,10 @@ source ~/.bashrc
 ```
 * Remove the previously installed gazebo, otherwise it will interfere with the current environment.
 ```
-$ sudo apt-get remove ros-ROS_DISTRO-gazebo* # such as ros-kinetic-gazebo*
-$ sudo apt-get remove libgazebo*
-$ sudo apt-get remove gazebo*
-$ sudo apt autoclean && sudo apt autoremove
+sudo apt-get remove ros-ROS_DISTRO-gazebo* # such as ros-kinetic-gazebo*
+sudo apt-get remove libgazebo*
+sudo apt-get remove gazebo*
+sudo apt autoclean && sudo apt autoremove
 ```
 * Install Gazebo-9 follow the instructions from [here](http://gazebosim.org/tutorials?cat=install&tut=install_ubuntu&ver=9.0)
 ```
@@ -71,8 +71,8 @@ sudo apt-get install python3-catkin-tools python3-osrf-pycommon
 ```
 * Create a workspace (anywhere you like, e.g., `~/catkin_ws`, but should keep the same for the current installation):
 ```
-$ mkdir -p ~/catkin_ws/src
-$ cd ~/catkin_ws/
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/
 ```
 
 ## Cloning and building
@@ -80,18 +80,18 @@ $ cd ~/catkin_ws/
 
 * Build sjtu-drone in the above workspace (must be the same as the one created in previous section):
 ```
-$ cd ~/catkin_ws/src
-$ git clone https://github.com/tahsinkose/sjtu-drone.git
-$ cd ~/catkin_ws
-$ catkin_make
+cd ~/catkin_ws/src
+git clone https://github.com/tahsinkose/sjtu-drone.git
+cd ~/catkin_ws
+catkin_make
 ```
 * Build the drone3d package in the workspace:
 ```
-$ cd ~/catkin_ws/src
-$ git clone https://github.com/longfish/drone3d.git 
-$ cd ~/catkin_ws
-$ source devel/setup.bash
-$ catkin_make
+cd ~/catkin_ws/src
+git clone https://github.com/longfish/drone3d.git 
+cd ~/catkin_ws
+source devel/setup.bash
+catkin_make
 ```
 
 ## Running
@@ -103,16 +103,16 @@ sudo docker exec -it my_rosdrone bash
 
 Launch the Gazebo world in the 1st terminal:
 ```
-$ cd ~/catkin_ws
-$ source devel/setup.bash
-$ roslaunch drone3d drone3d.launch
+cd ~/catkin_ws
+source devel/setup.bash
+roslaunch drone3d drone3d.launch
 ```
 
 Simulate the survivor behavior and drone in the 2nd terminal:
 ```
-$ cd ~/catkin_ws
-$ source devel/setup.bash
-$ rosrun drone3d simulate
+cd ~/catkin_ws
+source devel/setup.bash
+rosrun drone3d simulate
 ```
 
 ## Program structure
