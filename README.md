@@ -12,14 +12,14 @@ There are two installation options, i.e., docker and local ones. To get rid of d
 ### Option-1: Docker
 **Note**: Please install nvidia-docker2 from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. 
 
-* Choose a folder you like, download the Dockerfile and build the docker image (name it as rosdrone:v1):
+* Choose a folder you like, download the Dockerfile and build the docker image (name it as rosdrone3d):
 ```
 wget https://github.com/longfish/drone3d/blob/main/Dockerfile
-sudo docker build -t rosdrone:v1 .
+sudo docker build -t rosdrone3d .
 ```
 * Create a container:
 ```
-sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia rosdrone:v1 bash
+sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia rosdrone3d bash
 ```
 
 Then the user will be in `/home/catkin_ws#` by default.
