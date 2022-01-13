@@ -1,13 +1,13 @@
 # Drone3D 
 
-Drone3D is a C++ drone package used to rescue randomly distributed survivors based on Gazebo and ROS-1. This package adopted the drone controller program of [sjtu-drone](https://github.com/tahsinkose/sjtu-drone) and has beed tested in Ubuntu 18.04/20.04. Please **notice** that the current package is not guaranteed to work on older versions of Ubuntu.
+Drone3D is a C++ drone package used to rescue randomly distributed survivors based on Gazebo and ROS-1. This package adopted the drone controller program of [sjtu-drone](https://github.com/tahsinkose/sjtu-drone) and has beed tested in Ubuntu 18.04/20.04 (Please **notice** that the current package is not guaranteed to work on older versions of Ubuntu). To get rid of all the dependency issues, a docker image is also created to ease the running of drone3d package.
 
-The package first create a world with a drone landed at the centre red plate. Then multiple survivors are generated at random positions. The shortest route for traversing all survivors is calculated using RoutePlanner class. Drone would follow this route to visit each survivor and finally return to its initial position.
+The package first create a world with a drone landed at the central red plate. Then multiple survivors are generated at random positions. The shortest route for traversing all survivors is calculated using RoutePlanner class. Drone would follow this route to visit each survivor and finally return to its initial position.
 
 <img src="map.png" width="600" height="450" />
 
 # Installation
-To get rid of dependency issues, please use Docker to run the package.
+To get rid of dependency issues, Docker is a better choice to run the package.
 
 ## Docker
 **Note**: Please install the Nvidia-docker2 from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. 
@@ -15,7 +15,7 @@ To get rid of dependency issues, please use Docker to run the package.
 * Choose a folder you like, download the Dockerfile and build the docker image:
 ```
 wget https://github.com/longfish/drone3d/blob/main/Dockerfile
-docker build -t rosdrone:v1 .
+sudo docker build -t rosdrone:v1 .
 ```
 * Create a container:
 ```
@@ -25,7 +25,8 @@ sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1
 Then the user will be in `/home/catkin_ws#` by default.
 
 ## Local Ubuntu 18.04 
-**Note**: use ROS-Melodic and Gazebo-9, otherwise there may be issues.
+**Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues.
+
 * ROS melodic **Desktop** install (not the **Desktop-Full**), follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
 * Environment setup: 
 ``` 
@@ -81,9 +82,9 @@ $ catkin_make
 ```
 
 ## Running
-**Note**: is using docker, create two terminals using 
+**Note**: if one is using docker as environment, first create two terminals and following this
 ```
-docker start my_rosdrone
+sudo docker start my_rosdrone
 sudo docker exec -it my_rosdrone bash
 ```
 
