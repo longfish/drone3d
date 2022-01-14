@@ -77,16 +77,16 @@ Following all the above steps, the user will then be in `/home/catkin_ws#` with 
 > ```
 
 ## Cloning and building
-**Note**: the following should work in either of the docker and local environment, we prefer docker.
+**Note**: the following should work in either of the docker and local environment, we prefer docker in case of compile errors.
 
-* Build sjtu-drone in the above workspace (must be the same as the one created in previous section):
+* Build sjtu-drone in the above workspace (i.e., /home/catkin_ws):
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/tahsinkose/sjtu-drone.git
 cd ~/catkin_ws
 catkin_make
 ```
-* Build the drone3d package in the workspace:
+* Build the drone3d package in the same workspace:
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/longfish/drone3d.git 
