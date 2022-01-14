@@ -6,77 +6,77 @@ The package first create a world with a drone landed at the central red plate. T
 
 <img src="map.png" width="600" height="450" />
 
-## Install dependencies
-There are two installation options, i.e., docker and local ones. To get rid of dependency issues, Docker is a better choice to run the package. One need to have a Docker engine in the local machine, follow the instruction on [here](https://docs.docker.com/engine/install/ubuntu/).
+## Install prerequisites
+There are two options for installing prerequisites, i.e., via docker and manually install. To get rid of dependency issues, Docker is a better choice. One need to have a Docker engine in the local machine beforehand, please follow the instruction on [here](https://docs.docker.com/engine/install/ubuntu/).
 
-### Option-1: Use Docker
-Choose an empty folder, download the Dockerfile and build the docker image (name it as rosdrone3d):
-```
-wget https://raw.githubusercontent.com/longfish/drone3d/main/Dockerfile
-sudo xhost +local:root
-sudo docker build -t rosdrone3d .
-```
-Create a container:
-```
-sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" rosdrone3d bash
-```
-
-**Attention please**: If one is using Nvidia gpu and drivers, nvidia-docker2 should be installed from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. Uncomment the following lines in Dockerfile:
-```
-#ENV NVIDIA_VISIBLE_DEVICES \
-#    ${NVIDIA_VISIBLE_DEVICES:-all}
-#ENV NVIDIA_DRIVER_CAPABILITIES \
-#    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
-```
-Then build the docker image and create a container using the following command:
-```
-sudo xhost +local:root
-sudo docker build -t rosdrone3d .
-sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia rosdrone3d bash
-```
+### Option-1: Docker
+> Choose an empty folder, download the Dockerfile and build the docker image (name it as rosdrone3d):
+> ```
+> wget https://raw.githubusercontent.com/longfish/drone3d/main/Dockerfile
+> sudo xhost +local:root
+> sudo docker build -t rosdrone3d .
+> ```
+> Create a container:
+> ```
+> sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" rosdrone3d bash
+> ```
+> 
+> **Attention please**: If one is using Nvidia gpu and drivers, nvidia-docker2 should be installed from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. Uncomment the following lines in Dockerfile:
+> ```
+> #ENV NVIDIA_VISIBLE_DEVICES \
+> #    ${NVIDIA_VISIBLE_DEVICES:-all}
+> #ENV NVIDIA_DRIVER_CAPABILITIES \
+> #    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+> ```
+> Then build the docker image and create a container using the following command:
+> ```
+> sudo xhost +local:root
+> sudo docker build -t rosdrone3d .
+> sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia rosdrone3d bash
+> ```
 
 Following all the above steps, the user will then be in `/home/catkin_ws#` with all dependencies installed.
 
-### Option-2: Manually install (Ubuntu 18.04)
-**Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues. The current package is not guaranteed to work on older versions of Ubuntu.
-
-* ROS melodic **Desktop** install (not the **Desktop-Full**), follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
-* Environment setup: 
-``` 
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-source ~/.bashrc
-```
-* Remove the previously installed gazebo, otherwise it will interfere with the current environment.
-```
-sudo apt-get remove ros-ROS_DISTRO-gazebo* # such as ros-kinetic-gazebo*
-sudo apt-get remove libgazebo*
-sudo apt-get remove gazebo*
-sudo apt autoclean && sudo apt autoremove
-```
-* Install Gazebo-9 follow the instructions from [here](http://gazebosim.org/tutorials?cat=install&tut=install_ubuntu&ver=9.0)
-```
-sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install gazebo9
-sudo apt-get install libgazebo9-dev
-```
-* Install gazebo-ros packages
-```
-sudo apt-get install ros-melodic-gazebo-ros ros-melodic-gazebo-ros-pkgs  ros-melodic-gazebo-ros-control
-```
-* Install catkin
-```
-sudo apt-get install python3-catkin-tools python3-osrf-pycommon
-```
-* Create a workspace (anywhere you like, e.g., `~/catkin_ws`, but should keep the same for the current installation):
-```
-mkdir -p ~/catkin_ws/src
-cd ~/catkin_ws/
-```
+### Option-2: Manually install (in Ubuntu 18.04)
+> **Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues. The current package is not guaranteed to work on older versions of Ubuntu.
+> 
+> ROS melodic **Desktop** install (not the **Desktop-Full**), follow the instructions from [here](http://wiki.ros.org/melodic/Installation/Ubuntu).
+> Environment setup: 
+> ``` 
+> echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+> source ~/.bashrc
+> ```
+> Remove the previously installed gazebo, otherwise it will interfere with the current environment.
+> ```
+> sudo apt-get remove ros-ROS_DISTRO-gazebo* # such as ros-kinetic-gazebo*
+> sudo apt-get remove libgazebo*
+> sudo apt-get remove gazebo*
+> sudo apt autoclean && sudo apt autoremove
+> ```
+> Install Gazebo-9 follow the instructions from [here](http://gazebosim.org/tutorials?cat=install&tut=install_ubuntu&ver=9.0)
+> ```
+> sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+> wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+> sudo apt-get update
+> sudo apt-get install gazebo9
+> sudo apt-get install libgazebo9-dev
+> ```
+> Install gazebo-ros packages
+> ```
+> sudo apt-get install ros-melodic-gazebo-ros ros-melodic-gazebo-ros-pkgs  ros-melodic-gazebo-ros-control
+> ```
+> Install catkin
+> ```
+> sudo apt-get install python3-catkin-tools python3-osrf-pycommon
+> ```
+> Create a workspace (anywhere you like, e.g., `~/catkin_ws`, but should keep the same for the current installation):
+> ```
+> mkdir -p ~/catkin_ws/src
+> cd ~/catkin_ws/
+> ```
 
 ## Cloning and building
-**Note**: the following should work in both the docker and local environment, we prefer docker.
+**Note**: the following should work in either of the docker and local environment, we prefer docker.
 
 * Build sjtu-drone in the above workspace (must be the same as the one created in previous section):
 ```
@@ -95,7 +95,7 @@ catkin_make
 ```
 
 ## Running
-**Note**: if one is using docker as environment, first create two terminals and following this
+**Note**: if one is using docker as environment, first create two terminals and follow this to enter into the Docker environment
 ```
 sudo docker start my_rosdrone
 sudo docker exec -it my_rosdrone bash
