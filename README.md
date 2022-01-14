@@ -20,15 +20,16 @@ There are two options for installing prerequisites, i.e., via docker and manuall
 > ```
 > sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" rosdrone3d bash
 > ```
+> **Attention please**: No need for the following procedures if the user don't use Nvidia and related drivers.
 > 
-> **Attention please**: If one is using Nvidia gpu and drivers, nvidia-docker2 should be installed from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. Uncomment the following lines in Dockerfile:
+> If one is using Nvidia gpu and drivers, nvidia-docker2 should be installed from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. Then uncomment the following lines in Dockerfile:
 > ```
 > #ENV NVIDIA_VISIBLE_DEVICES \
 > #    ${NVIDIA_VISIBLE_DEVICES:-all}
 > #ENV NVIDIA_DRIVER_CAPABILITIES \
 > #    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 > ```
-> Then build the docker image and create a container using the following command:
+> Next build the docker image and create a container using the following command:
 > ```
 > sudo xhost +local:root
 > sudo docker build -t rosdrone3d .
