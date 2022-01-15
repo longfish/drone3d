@@ -7,9 +7,13 @@ The package first create a world with a drone landed at the central red plate. T
 <img src="map.png" width="600" height="450" />
 
 ## Install prerequisites
-There are two options for installing prerequisites, i.e., via docker and manually install. To get rid of dependency issues, Docker is a better choice. One need to have a Docker engine in the local machine beforehand, please follow the instruction on [here](https://docs.docker.com/engine/install/ubuntu/).
+There are two options for installing prerequisites, i.e., via docker or manually install. To get rid of dependency issues, Docker is a better choice. One need to have a Docker engine in the local machine beforehand, please follow the instruction on [here](https://docs.docker.com/engine/install/ubuntu/).
 
 ### Option-1: Docker
+> **Non-Nvidia gpu**
+> 
+> *Note: if one came across any problems, should check if a Nvidia gpu is used on your computer* 
+> 
 > Choose an empty folder, download the Dockerfile and build the docker image (name it as rosdrone3d):
 > ```
 > wget https://raw.githubusercontent.com/longfish/drone3d/main/Dockerfile
@@ -20,7 +24,9 @@ There are two options for installing prerequisites, i.e., via docker and manuall
 > ```
 > sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" rosdrone3d bash
 > ```
-> **Attention please**: No need for the following procedures if the user don't use Nvidia and related drivers.
+> **Nvidia gpu**
+> 
+> May directly jump to the section **Cloning and building** if the user don't use Nvidia gpu and related drivers. 
 > 
 > If one is using Nvidia gpu and drivers, nvidia-docker2 should be installed from this [site](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for properly running Gazebo. Then uncomment the following lines in Dockerfile:
 > ```
@@ -36,7 +42,7 @@ There are two options for installing prerequisites, i.e., via docker and manuall
 > sudo docker run --name my_rosdrone -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia rosdrone3d bash
 > ```
 
-Following all the above steps, the user will then be in `/home/catkin_ws#` with all dependencies installed.
+Following either of the two steps, the user will then be in `/home/catkin_ws#` with all dependencies installed.
 
 ### Option-2: Manually install (in Ubuntu 18.04)
 > **Note**: use ROS-Melodic and Gazebo-9, otherwise there cause some issues. The current package is not guaranteed to work on older versions of Ubuntu.
