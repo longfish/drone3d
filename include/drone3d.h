@@ -22,11 +22,11 @@
 //#include "route_planner.h"
 
 #define EPS 0.1            // position tolerance
-#define H_TAKEOFF 0.5 // drone height after take off
-#define H_FLIGHT 5    // drone height during flight
-#define H_PAUSE 2.5    // drone height when stop at the sky
-#define H_LAND 0.0    // drone height after land
+#define H_TAKEOFF 0.5      // drone height after take off
+#define H_FLIGHT 5         // drone height during flight
+#define H_PAUSE 2.5        // drone height when stop at the sky
+#define H_LAND 0.0         // drone height after land
 
-extern float current_coord[3]; // global variable to store initial positions
+extern float current_coord[3]; // global variable to store current positions
 
 #endif
